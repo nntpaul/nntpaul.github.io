@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NuttyB Configurator</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luaparse@0.3.1/luaparse.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/luamin@1.0.4/luamin.min.js" defer></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="container">
+        <h1>NuttyB Configurator</h1>
+        
+        <div class="tabs">
+            <button class="tab-button active" data-tab="config">Configuration</button>
+            <button class="tab-button" data-tab="data">Data</button>
+            <button class="tab-button" data-tab="custom">Custom</button>
+            <button class="tab-button" data-tab="links">Links</button>
+            <button class="tab-button" data-tab="comments">Comments</button>
+        </div>
+
+        <div id="config-tab" class="tab-content active">
+            <div class="settings-container">
+                <h2>Game Tweaks</h2>
+                <div id="options-form-columns">
+                    <div class="options-column" id="left-column">
+                        <p>Loading configuration data...</p>
+                    </div>
+                    <div class="options-column" id="right-column"></div>
+                </div>
+                <div class="action-buttons-container">
+                    <button id="reset-default-btn" class="action-button">Reset</button>
+                    <button id="reset-none-btn" class="action-button">None</button>
+                </div>
+            </div>
+
+            <div id="custom-settings-container" class="settings-container" style="display: none;">
+                <h2>Custom Tweaks</h2>
+                <div id="custom-options-form-columns">
+                    <div class="options-column" id="custom-left-column"></div>
+                    <div class="options-column" id="custom-right-column"></div>
+                </div>
+                <div id="slot-warning-messages"></div>
+            </div>
+
+            <div class="output-container">
+                <h2>Generated Commands</h2>
+                <p>Copy and paste all parts separately to the lobby</p>
+                <div id="part-1-section" class="command-output-section">
+                    <button class="copy-button" data-target="command-output-1">Copy Part 1</button>
+                    <textarea id="command-output-1" rows="5" readonly></textarea>
+                </div>
+                <div id="part-2-section" class="command-output-section" style="display: none;">
+                    <button class="copy-button" data-target="command-output-2">Copy Part 2</button>
+                    <textarea id="command-output-2" rows="5" readonly></textarea>
+                </div>
+                <div id="part-3-section" class="command-output-section" style="display: none;">
+                    <button class="copy-button" data-target="command-output-3">Copy Part 3</button>
+                    <textarea id="command-output-3" rows="5" readonly></textarea>
+                </div>
+                <div id="part-4-section" class="command-output-section" style="display: none;">
+                    <button class="copy-button" data-target="command-output-4">Copy Part 4</button>
+                    <textarea id="command-output-4" rows="5" readonly></textarea>
+                </div>
+                <div id="part-5-section" class="command-output-section" style="display: none;">
+                    <button class="copy-button" data-target="command-output-5">Copy Part 5</button>
+                    <textarea id="command-output-5" rows="5" readonly></textarea>
+                </div>
+                <div id="part-6-section" class="command-output-section" style="display: none;">
+                    <button class="copy-button" data-target="command-output-6">Copy Part 6</button>
+                    <textarea id="command-output-6" rows="5" readonly></textarea>
+                </div>
+                <div id="part-7-section" class="command-output-section" style="display: none;">
+                    <button class="copy-button" data-target="command-output-7">Copy Part 7</button>
+                    <textarea id="command-output-7" rows="5" readonly></textarea>
+                </div>
+
+                <div class="lobby-name-output">
+                    <strong>Lobby Name:</strong> <span id="lobby-name-display">Loading...</span>
+                </div>
+            </div>
+        </div>
+        
+        <div id="data-tab" class="tab-content">
+            <h2>Configuration Data</h2>
+            <p>This table shows a summary for each configurable option</p>
+            <table id="data-table">
+                <thead>
+                    <tr><th>Option</th><th>Status</th><th>Summary</th><th>Command Blocks</th></tr>
+                </thead>
+                <tbody>
+                     <tr><td colspan="4">Loading data...</td></tr>
+                </tbody>
+            </table>
+
+            <h2 style="margin-top: 30px;">Maps and Modes</h2>
+            <p>This table shows the available maps and modes</p>
+            <table id="maps-modes-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Name</th>
+                        <th>Commands</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="3">Loading data...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="custom-tab" class="tab-content">
+            <p>Save your custom tweaks for use in the configurator</p>
+            <h2>Add Custom Tweak</h2>
+            <form id="custom-tweak-form">
+                <label for="custom-option-desc">Description:</label>
+                <input type="text" id="custom-option-desc" placeholder="e.g., Super Fast Tanks" required>
+                <label for="custom-option-type">Type:</label>
+                <select id="custom-option-type">
+                    <option value="tweakdefs">tweakdefs</option>
+                    <option value="tweakunits">tweakunits</option>
+                </select>
+                <label for="custom-tweak-code">Tweak Code (Base64URL):</label>
+                <textarea id="custom-tweak-code" placeholder="Paste your base64url encoded tweak code here" required></textarea>
+                <label></label>
+                <button type="submit">Save Tweak</button>
+            </form>
+
+            <h2>Saved Tweaks</h2>
+            <table id="custom-tweaks-table">
+                <thead>
+                    <tr><th>Tweak</th><th>Type</th><th>Code</th><th>Actions</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="links-tab" class="tab-content">
+            <p>Loading links...</p>
+        </div>
+        
+        <div id="comments-tab" class="tab-content">
+            <div id="gitalk-container"></div>
+        </div>
+
+    </div>
+    <script src="js/main.js"></script>
+    <!-- Gitalk-->
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script src="js/plugin/gitalk.config.js"></script>
+</body>
+</html>
