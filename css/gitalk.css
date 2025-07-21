@@ -641,7 +641,7 @@
   overflow: auto;
   font-size: 85%;
   line-height: 1.45;
-  background-color: #f6f8fa;
+  background-color: #5c5c5c;
   border-radius: 3px;
 }
 
@@ -1195,7 +1195,7 @@
   right: 0;
 }
 .gt-container .gt-comment-body {
-  color: #333 !important;
+  color: #ffffff !important;
 }
 .gt-container .gt-comment-body .email-hidden-toggle a {
   display: inline-block;
@@ -1227,7 +1227,7 @@
   display: block;
 }
 .gt-container .gt-comment-admin .gt-comment-content {
-  background-color: #f6f9fe;
+  background-color: #303030;
 }
 @-webkit-keyframes gt-kf-rotate {
   0% {
