@@ -1,9 +1,9 @@
 const gitalk = new Gitalk({
-    clientID: '5d5d2ccbdfc905efae38',
-    clientSecret: 'efd34fc1dfa460984be2ac29e7a7fb40a4e2b8ee',
-    repo: 'timuela.github.io',
-    owner: 'timuela',
-    admin: ['timuela'],
+    clientID: 'Ov23li915zWGodupwLwr',
+    clientSecret: '6b6d4161a371367ffe1e8b0632e042b2c9b10b7a',
+    repo: 'nntpaul.github.io',
+    owner: 'nntpaul',
+    admin: ['nntpaul'],
     distractionFreeMode: false,
     createIssueManually: true,
     flipMoveOptions: {
