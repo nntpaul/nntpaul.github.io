@@ -69,12 +69,12 @@ function showCustomInput(type) {
                     <button onclick="compressAndShow${type === 'defs' ? 'Def' : 'Unit'}('${boxId}')">Compress & Convert</button>
                     <div class="output-group">
                         <label class="small-label" for="${boxId}-compressed">Compressed Output:</label>
-                        <textarea id="${boxId}-compressed" readonly></textarea>
+                        <textarea id="${boxId}-compressed"></textarea>
                         <button onclick="copyToClipboard('${boxId}-compressed')" class="copy-btn">Copy</button>
                     </div>
                     <div class="output-group">
                         <label class="small-label" for="${boxId}-base64">Base64 Output:</label>
-                        <textarea id="${boxId}-base64" readonly></textarea>
+                        <textarea id="${boxId}-base64"></textarea>
                         <button onclick="copyToClipboard('${boxId}-base64')" class="copy-btn">Copy</button>
                     </div>
                 </div>
@@ -100,12 +100,12 @@ async function loadTweakDef(url) {
             <button onclick="compressAndShowDef('${boxId}')">Compress & Convert</button>
             <div class="output-group">
                 <label class="small-label" for="${boxId}-compressed">Compressed Output:</label>
-                <textarea id="${boxId}-compressed" readonly></textarea>
+                <textarea id="${boxId}-compressed"></textarea>
                 <button onclick="copyToClipboard('${boxId}-compressed')" class="copy-btn">Copy</button>
             </div>
             <div class="output-group">
                 <label class="small-label" for="${boxId}-base64">Base64 Output:</label>
-                <textarea id="${boxId}-base64" readonly></textarea>
+                <textarea id="${boxId}-base64"></textarea>
                 <button onclick="copyToClipboard('${boxId}-base64')" class="copy-btn">Copy</button>
             </div>
         </div>
@@ -131,12 +131,12 @@ async function loadTweakUnit(url) {
             <button onclick="compressAndShowUnit('${boxId}')">Compress & Convert</button>
             <div class="output-group">
                 <label class="small-label" for="${boxId}-compressed">Compressed Output:</label>
-                <textarea id="${boxId}-compressed" readonly></textarea>
+                <textarea id="${boxId}-compressed"></textarea>
                 <button onclick="copyToClipboard('${boxId}-compressed')" class="copy-btn">Copy</button>
             </div>
             <div class="output-group">
                 <label class="small-label" for="${boxId}-base64">Base64 Output:</label>
-                <textarea id="${boxId}-base64" readonly></textarea>
+                <textarea id="${boxId}-base64"></textarea>
                 <button onclick="copyToClipboard('${boxId}-base64')" class="copy-btn">Copy</button>
             </div>
         </div>
