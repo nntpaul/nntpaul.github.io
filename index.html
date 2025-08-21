@@ -3,177 +3,73 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Lua Compressor & Base64 Converter</title>
-    <style>
-        body {
-            font-family: Arial, monospace, sans-serif;
-            margin: 2em;
-        }
-
-        h2 {
-            margin-top: 0;
-        }
-
-        .container {
-            width: 80%;
-            display: flex;
-            gap: 1em;
-            align-items: flex-start;
-            justify-content: center;
-            margin: 0 auto;
-        }
-
-        .section {
-            flex: 1 1 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 1em 1.5em;
-            background: #fafafa;
-            min-width: 350px;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 10em;
-            resize: vertical;
-            font-family: monospace;
-        }
-
-        .output-group {
-            margin-bottom: 1em;
-        }
-
-        button {
-            margin: 1em 0 1em 0.5em;
-        }
-
-        label {
-            font-weight: bold;
-        }
-    </style>
+    <title>Lua Base64 Converter</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="section">
-            <h2>Tweakdefs</h2>
-            <label for="defs-input">Paste your tweakdefs below</label>
-            <div><textarea id="defs-input"></textarea></div>
-            <br>
-            <button onclick="compressLua()">Compress & Convert</button>
-            <div class="output-group">
-                <label for="defs-compressed">Compressed Output:</label>
-                <div><textarea id="defs-compressed" readonly></textarea></div>
-                <button onclick="copyToClipboard('defs-compressed')">Copy</button>
-            </div>
-            <div class="output-group">
-                <label for="defs-base64">Base64 Output:</label>
-                <div><textarea id="defs-base64" readonly></textarea></div>
-                <button onclick="copyToClipboard('defs-base64')">Copy</button>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Tweakunits</h2>
-            <label for="units-input">Paste your tweakunits below</label>
-            <div><textarea id="units-input"></textarea></div>
-            <br>
-            <button onclick="processUnits()">Compress & Convert</button>
-            <div class="output-group">
-                <label for="units-compressed">Compressed Output:</label>
-                <div><textarea id="units-compressed" readonly></textarea></div>
-                <button onclick="copyToClipboard('units-compressed')">Copy</button>
-            </div>
-            <div class="output-group">
-                <label for="units-base64">Base64 Output:</label>
-                <div><textarea id="units-base64" readonly></textarea></div>
-                <button onclick="copyToClipboard('units-base64')">Copy</button>
-            </div>
+    <div class="header">
+        <h1>Lua Base64 Converter</h1>
+        <div class="instructions">
+            <h3>How to use:</h3>
+            <p>1. Select a file from the dropdown or use "--Custom Tweaks--" to input your own code</p>
+            <p>2. Click "Compress & Convert" to process the code</p>
+            <p>3. Copy the compressed or Base64 output using the copy buttons</p>
         </div>
     </div>
 
-    <script>
-        function compressLua() {
-            const input = document.getElementById('defs-input').value;
-            const lines = input.split('\n');
-            let comments = [];
-            let codeLines = [];
-            for (let line of lines) {
-                if (line.trim().startsWith('--')) {
-                    comments.push(line);
-                } else if (line.trim() !== '') {
-                    codeLines.push(line);
-                }
-            }
-            let code = codeLines.join(' ')
-                .replace(/\s*([,={}()])\s*/g, '$1')
-                .replace(/\s+/g, ' ')
-                .trim();
-            let compressed = comments.join('\n') + '\n' + code;
-            document.getElementById('defs-compressed').value = compressed;
+    <div class="container">
 
-            function toBase64(str) {
-                return btoa(unescape(encodeURIComponent(str)));
-            }
-            let base64 = toBase64(compressed);
-
-            base64 = base64.replace(/=+/g, '');
-
-            document.getElementById('defs-base64').value = base64;
-        }
-
-        function processUnits() {
-            const input = document.getElementById('units-input').value;
-            let lines = input.split('\n');
-            let out = [];
-            let inReturn = false;
-            let buffer = '';
-            for (let line of lines) {
-                if (line.trim().startsWith('--')) {
-                    out.push(line);
-                } else if (line.includes('return')) {
-                    inReturn = true;
-                    buffer += line.replace(/return\s*/, '');
-                } else if (inReturn) {
-                    buffer += line;
-                }
-            }
-            buffer = buffer.trim();
-            if (buffer.startsWith('{')) buffer = buffer.slice(1);
-            if (buffer.endsWith('}')) buffer = buffer.slice(0, -1);
-
-            let compressed = '';
-            let inQuote = false;
-            for (let i = 0; i < buffer.length; i++) {
-                let c = buffer[i];
-                if (c === "'") {
-                    inQuote = !inQuote;
-                    compressed += c;
-                } else if (inQuote) {
-                    compressed += c;
-                } else if (c === ' ' || c === '\n' || c === '\t') {
-                } else {
-                    compressed += c;
-                }
-            }
-            let final = out.join('\n') + '\n{' + compressed + '}';
-
-            let compressedArea = document.getElementById('units-compressed');
-            compressedArea.value = final;
-            compressedArea.readOnly = false;
-
-            let base64 = btoa(unescape(encodeURIComponent(final))).replace(/=+$/, '');
-            let base64Area = document.getElementById('units-base64');
-            base64Area.value = base64;
-            base64Area.readOnly = false;
-        }
-
-        function copyToClipboard(id) {
-            const textarea = document.getElementById(id);
-            textarea.select();
-            document.execCommand('copy');
-        }
-    </script>
+        <div class="section">
+            <h2>Tweakdefs</h2>
+            <select id="defs-dropdown"></select>
+            <div id="defs-box">
+                <div class="tweak-box">
+                    <div class="tweak-title">Custom Tweakdef</div>
+                    <label class="small-label" for="defs-custom-input">Enter your code:</label>
+                    <textarea id="defs-custom-input" class="code-editor"
+                        placeholder="Paste your Lua code here"></textarea>
+                    <br>
+                    <button onclick="compressAndShowDef('defs-custom')">Compress & Convert</button>
+                    <div class="output-group">
+                        <label class="small-label" for="defs-custom-compressed">Compressed Output:</label>
+                        <textarea id="defs-custom-compressed" readonly></textarea>
+                        <button onclick="copyToClipboard('defs-custom-compressed')" class="copy-btn">Copy</button>
+                    </div>
+                    <div class="output-group">
+                        <label class="small-label" for="defs-custom-base64">Base64 Output:</label>
+                        <textarea id="defs-custom-base64" readonly></textarea>
+                        <button onclick="copyToClipboard('defs-custom-base64')" class="copy-btn">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Tweakunits</h2>
+            <select id="units-dropdown"></select>
+            <div id="units-box">
+                <div class="tweak-box">
+                    <div class="tweak-title">Custom Tweakunit</div>
+                    <label class="small-label" for="units-custom-input">Enter your code:</label>
+                    <textarea id="units-custom-input" class="code-editor"
+                        placeholder="Paste your Lua code here"></textarea>
+                    <br>
+                    <button onclick="compressAndShowUnit('units-custom')">Compress & Convert</button>
+                    <div class="output-group">
+                        <label class="small-label" for="units-custom-compressed">Compressed Output:</label>
+                        <textarea id="units-custom-compressed" readonly></textarea>
+                        <button onclick="copyToClipboard('units-custom-compressed')" class="copy-btn">Copy</button>
+                    </div>
+                    <div class="output-group">
+                        <label class="small-label" for="units-custom-base64">Base64 Output:</label>
+                        <textarea id="units-custom-base64" readonly></textarea>
+                        <button onclick="copyToClipboard('units-custom-base64')" class="copy-btn">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="index.js"></script>
 </body>
 
 </html>

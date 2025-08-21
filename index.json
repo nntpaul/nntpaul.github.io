@@ -1,0 +1,29 @@
+{
+  "defs": [
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs2.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs3.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs4.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs5.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs6.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs7.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs8.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs/raptor%20hp%201.3X.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs/raptor%20hp%201.5X.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs/raptor%20hp%201.7X.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs/raptor%20hp%202.0X.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs1/queen%20hp%2001%201.3X.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs1/queen%20hp%2002%201.5X.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs1/queen%20hp%2003%201.7X.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakdefs1/queen%20hp%2004%202.0X.lua"
+  ],
+  "units": [
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakunits.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakunits1.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakunits2.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakunits3.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakunits4.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakunits5.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakunits6.lua",
+    "https://raw.githubusercontent.com/Backbash/NuttyB-Raptors/refs/heads/main/lua/tweakunits7.lua"
+  ]
+}
