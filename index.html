@@ -1,157 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NuttyB Configurator</title>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/luaparse@0.3.1/luaparse.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/luamin@1.0.4/luamin.min.js" defer></script>
+    <title>Lua Compressor & Base64 Converter</title>
+    <style>
+        body {
+            font-family: Arial, monospace, sans-serif;
+            margin: 2em;
+        }
 
-    <link rel="stylesheet" href="css/gitalk.css">
+        h2 {
+            margin-top: 0;
+        }
 
-    <link rel="stylesheet" href="css/main.css">
+        .container {
+            width: 80%;
+            display: flex;
+            gap: 1em;
+            align-items: flex-start;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .section {
+            flex: 1 1 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 1em 1.5em;
+            background: #fafafa;
+            min-width: 350px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 10em;
+            resize: vertical;
+            font-family: monospace;
+        }
+
+        .output-group {
+            margin-bottom: 1em;
+        }
+
+        button {
+            margin: 1em 0 1em 0.5em;
+        }
+
+        label {
+            font-weight: bold;
+        }
+    </style>
 </head>
+
 <body>
     <div class="container">
-        <h1>NuttyB Configurator</h1>
-        
-        <div class="tabs">
-            <button class="tab-button active" data-tab="config">Configuration</button>
-            <button class="tab-button" data-tab="data">Data</button>
-            <button class="tab-button" data-tab="custom">Custom</button>
-            <button class="tab-button" data-tab="links">Links</button>
-            <button class="tab-button" data-tab="comments">Comments</button>
-        </div>
-
-        <div id="config-tab" class="tab-content active">
-            <div class="settings-container">
-                <h2>Game Tweaks</h2>
-                <div id="options-form-columns">
-                    <div class="options-column" id="left-column">
-                        <p>Loading configuration data...</p>
-                    </div>
-                    <div class="options-column" id="right-column"></div>
-                </div>
-                <div class="action-buttons-container">
-                    <button id="reset-default-btn" class="action-button">Reset</button>
-                    <button id="reset-none-btn" class="action-button">None</button>
-                </div>
+        <div class="section">
+            <h2>Tweakdefs</h2>
+            <label for="defs-input">Paste your tweakdefs below</label>
+            <div><textarea id="defs-input"></textarea></div>
+            <br>
+            <button onclick="compressLua()">Compress & Convert</button>
+            <div class="output-group">
+                <label for="defs-compressed">Compressed Output:</label>
+                <div><textarea id="defs-compressed" readonly></textarea></div>
+                <button onclick="copyToClipboard('defs-compressed')">Copy</button>
             </div>
-
-            <div id="custom-settings-container" class="settings-container" style="display: none;">
-                <h2>Custom Tweaks</h2>
-                <div id="custom-options-form-columns">
-                    <div class="options-column" id="custom-left-column"></div>
-                    <div class="options-column" id="custom-right-column"></div>
-                </div>
-                <div id="slot-warning-messages"></div>
-            </div>
-
-            <div class="output-container">
-                <h2>Generated Commands</h2>
-                <p>Copy and paste all parts separately to the lobby</p>
-                <div id="part-1-section" class="command-output-section">
-                    <button class="copy-button" data-target="command-output-1">Copy Part 1</button>
-                    <textarea id="command-output-1" rows="5" readonly></textarea>
-                </div>
-                <div id="part-2-section" class="command-output-section" style="display: none;">
-                    <button class="copy-button" data-target="command-output-2">Copy Part 2</button>
-                    <textarea id="command-output-2" rows="5" readonly></textarea>
-                </div>
-                <div id="part-3-section" class="command-output-section" style="display: none;">
-                    <button class="copy-button" data-target="command-output-3">Copy Part 3</button>
-                    <textarea id="command-output-3" rows="5" readonly></textarea>
-                </div>
-                <div id="part-4-section" class="command-output-section" style="display: none;">
-                    <button class="copy-button" data-target="command-output-4">Copy Part 4</button>
-                    <textarea id="command-output-4" rows="5" readonly></textarea>
-                </div>
-                <div id="part-5-section" class="command-output-section" style="display: none;">
-                    <button class="copy-button" data-target="command-output-5">Copy Part 5</button>
-                    <textarea id="command-output-5" rows="5" readonly></textarea>
-                </div>
-                <div id="part-6-section" class="command-output-section" style="display: none;">
-                    <button class="copy-button" data-target="command-output-6">Copy Part 6</button>
-                    <textarea id="command-output-6" rows="5" readonly></textarea>
-                </div>
-                <div id="part-7-section" class="command-output-section" style="display: none;">
-                    <button class="copy-button" data-target="command-output-7">Copy Part 7</button>
-                    <textarea id="command-output-7" rows="5" readonly></textarea>
-                </div>
-
-                <div class="lobby-name-output">
-                    <strong>Lobby Name:</strong> <span id="lobby-name-display">Loading...</span>
-                </div>
+            <div class="output-group">
+                <label for="defs-base64">Base64 Output:</label>
+                <div><textarea id="defs-base64" readonly></textarea></div>
+                <button onclick="copyToClipboard('defs-base64')">Copy</button>
             </div>
         </div>
-        
-        <div id="data-tab" class="tab-content">
-            <h2>Configuration Data</h2>
-            <p>This table shows a summary for each configurable option</p>
-            <table id="data-table">
-                <thead>
-                    <tr><th>Option</th><th>Status</th><th>Summary</th><th>Command Blocks</th></tr>
-                </thead>
-                <tbody>
-                     <tr><td colspan="4">Loading data...</td></tr>
-                </tbody>
-            </table>
 
-            <h2 style="margin-top: 30px;">Maps and Modes</h2>
-            <p>This table shows the available maps and modes</p>
-            <table id="maps-modes-table">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Name</th>
-                        <th>Commands</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td colspan="3">Loading data...</td></tr>
-                </tbody>
-            </table>
+        <div class="section">
+            <h2>Tweakunits</h2>
+            <label for="units-input">Paste your tweakunits below</label>
+            <div><textarea id="units-input"></textarea></div>
+            <br>
+            <button onclick="processUnits()">Compress & Convert</button>
+            <div class="output-group">
+                <label for="units-compressed">Compressed Output:</label>
+                <div><textarea id="units-compressed" readonly></textarea></div>
+                <button onclick="copyToClipboard('units-compressed')">Copy</button>
+            </div>
+            <div class="output-group">
+                <label for="units-base64">Base64 Output:</label>
+                <div><textarea id="units-base64" readonly></textarea></div>
+                <button onclick="copyToClipboard('units-base64')">Copy</button>
+            </div>
         </div>
-
-        <div id="custom-tab" class="tab-content">
-            <p>Save your custom tweaks for use in the configurator</p>
-            <h2>Add Custom Tweak</h2>
-            <form id="custom-tweak-form">
-                <label for="custom-option-desc">Description:</label>
-                <input type="text" id="custom-option-desc" placeholder="e.g., Super Fast Tanks" required>
-                <label for="custom-option-type">Type:</label>
-                <select id="custom-option-type">
-                    <option value="tweakdefs">tweakdefs</option>
-                    <option value="tweakunits">tweakunits</option>
-                </select>
-                <label for="custom-tweak-code">Tweak Code (Base64URL):</label>
-                <textarea id="custom-tweak-code" placeholder="Paste your base64url encoded tweak code here" required></textarea>
-                <label></label>
-                <button type="submit">Save Tweak</button>
-            </form>
-
-            <h2>Saved Tweaks</h2>
-            <table id="custom-tweaks-table">
-                <thead>
-                    <tr><th>Tweak</th><th>Type</th><th>Code</th><th>Actions</th></tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <div id="links-tab" class="tab-content">
-            <p>Loading links...</p>
-        </div>
-        
-        <div id="comments-tab" class="tab-content">
-            <div id="gitalk-container"></div>
-        </div>
-
     </div>
-    <script src="js/main.js"></script>
-    <!-- Gitalk-->
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script src="js/plugin/gitalk.config.js"></script>
+
+    <script>
+        function compressLua() {
+            const input = document.getElementById('defs-input').value;
+            const lines = input.split('\n');
+            let comments = [];
+            let codeLines = [];
+            for (let line of lines) {
+                if (line.trim().startsWith('--')) {
+                    comments.push(line);
+                } else if (line.trim() !== '') {
+                    codeLines.push(line);
+                }
+            }
+            let code = codeLines.join(' ')
+                .replace(/\s*([,={}()])\s*/g, '$1')
+                .replace(/\s+/g, ' ')
+                .trim();
+            let compressed = comments.join('\n') + '\n' + code;
+            document.getElementById('defs-compressed').value = compressed;
+
+            function toBase64(str) {
+                return btoa(unescape(encodeURIComponent(str)));
+            }
+            let base64 = toBase64(compressed);
+
+            base64 = base64.replace(/=+/g, '');
+
+            document.getElementById('defs-base64').value = base64;
+        }
+
+        function processUnits() {
+            const input = document.getElementById('units-input').value;
+            let lines = input.split('\n');
+            let out = [];
+            let inReturn = false;
+            let buffer = '';
+            for (let line of lines) {
+                if (line.trim().startsWith('--')) {
+                    out.push(line);
+                } else if (line.includes('return')) {
+                    inReturn = true;
+                    buffer += line.replace(/return\s*/, '');
+                } else if (inReturn) {
+                    buffer += line;
+                }
+            }
+            buffer = buffer.trim();
+            if (buffer.startsWith('{')) buffer = buffer.slice(1);
+            if (buffer.endsWith('}')) buffer = buffer.slice(0, -1);
+
+            let compressed = '';
+            let inQuote = false;
+            for (let i = 0; i < buffer.length; i++) {
+                let c = buffer[i];
+                if (c === "'") {
+                    inQuote = !inQuote;
+                    compressed += c;
+                } else if (inQuote) {
+                    compressed += c;
+                } else if (c === ' ' || c === '\n' || c === '\t') {
+                } else {
+                    compressed += c;
+                }
+            }
+            let final = out.join('\n') + '\n{' + compressed + '}';
+
+            let compressedArea = document.getElementById('units-compressed');
+            compressedArea.value = final;
+            compressedArea.readOnly = false;
+
+            let base64 = btoa(unescape(encodeURIComponent(final))).replace(/=+$/, '');
+            let base64Area = document.getElementById('units-base64');
+            base64Area.value = base64;
+            base64Area.readOnly = false;
+        }
+
+        function copyToClipboard(id) {
+            const textarea = document.getElementById(id);
+            textarea.select();
+            document.execCommand('copy');
+        }
+    </script>
 </body>
+
 </html>
