@@ -8,8 +8,70 @@
 </head>
 
 <body>
-    <div class="header">
-        <h1>Lua Base64 Converter</h1>
+    <div class="container">
+
+        <div class="title">
+            <h1>Lua Base64 Encoder</h1>
+        </div>
+
+        <div class="coder">
+            <div class="section">
+                <h2>Tweakdefs</h2>
+                <select id="defs-dropdown"></select>
+                <div id="defs-box">
+                    <div class="tweak-box">
+                        <div class="tweak-title">Custom Tweakdef</div>
+                        <label class="small-label" for="defs-custom-input">Enter your code:</label>
+                        <textarea id="defs-custom-input" class="code-editor"
+                            placeholder="Paste your Lua code here"></textarea>
+                        <br>
+                        <button onclick="compressAndShowDef('defs-custom')">Compress & Convert</button>
+                        <div class="output-group">
+                            <label class="small-label" for="defs-custom-compressed">Compressed Output:</label>
+                            <textarea id="defs-custom-compressed"></textarea>
+                            <button onclick="copyToClipboard('defs-custom-compressed')" class="copy-btn">Copy</button>
+                            <button onclick="convertCompressedToBase64('defs-custom-compressed', 'defs-custom-base64')"
+                                class="convert-btn">Convert to Base64</button>
+                        </div>
+                        <div class="output-group">
+                            <label class="small-label" for="defs-custom-base64">Base64 Output:</label>
+                            <textarea id="defs-custom-base64"></textarea>
+                            <button onclick="copyToClipboard('defs-custom-base64')" class="copy-btn">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <h2>Tweakunits</h2>
+                <select id="units-dropdown"></select>
+                <div id="units-box">
+                    <div class="tweak-box">
+                        <div class="tweak-title">Custom Tweakunit</div>
+                        <label class="small-label" for="units-custom-input">Enter your code:</label>
+                        <textarea id="units-custom-input" class="code-editor"
+                            placeholder="Paste your Lua code here"></textarea>
+                        <br>
+                        <button onclick="compressAndShowUnit('units-custom')">Compress & Convert</button>
+                        <div class="output-group">
+                            <label class="small-label" for="units-custom-compressed">Compressed Output:</label>
+                            <textarea id="units-custom-compressed"></textarea>
+                            <button onclick="copyToClipboard('units-custom-compressed')" class="copy-btn">Copy</button>
+                            <button
+                                onclick="convertCompressedToBase64('units-custom-compressed', 'units-custom-base64')"
+                                class="convert-btn">Convert to Base64</button>
+                        </div>
+                        <div class="output-group">
+                            <label class="small-label" for="units-custom-base64">Base64 Output:</label>
+                            <textarea id="units-custom-base64"></textarea>
+                            <button onclick="copyToClipboard('units-custom-base64')" class="copy-btn">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
         <div class="instructions">
             <h3>How to use:</h3>
             <p>1. Select a file from the dropdown or use "--Custom Tweaks--" to input your own code.</p>
@@ -19,61 +81,6 @@
         </div>
     </div>
 
-    <div class="container">
-
-        <div class="section">
-            <h2>Tweakdefs</h2>
-            <select id="defs-dropdown"></select>
-            <div id="defs-box">
-                <div class="tweak-box">
-                    <div class="tweak-title">Custom Tweakdef</div>
-                    <label class="small-label" for="defs-custom-input">Enter your code:</label>
-                    <textarea id="defs-custom-input" class="code-editor"
-                        placeholder="Paste your Lua code here"></textarea>
-                    <br>
-                    <button onclick="compressAndShowDef('defs-custom')">Compress & Convert</button>
-                    <div class="output-group">
-                        <label class="small-label" for="defs-custom-compressed">Compressed Output:</label>
-                        <textarea id="defs-custom-compressed"></textarea>
-                        <button onclick="copyToClipboard('defs-custom-compressed')" class="copy-btn">Copy</button>
-                        <button onclick="convertCompressedToBase64('defs-custom-compressed', 'defs-custom-base64')"
-                            class="convert-btn">Convert to Base64</button>
-                    </div>
-                    <div class="output-group">
-                        <label class="small-label" for="defs-custom-base64">Base64 Output:</label>
-                        <textarea id="defs-custom-base64"></textarea>
-                        <button onclick="copyToClipboard('defs-custom-base64')" class="copy-btn">Copy</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="section">
-            <h2>Tweakunits</h2>
-            <select id="units-dropdown"></select>
-            <div id="units-box">
-                <div class="tweak-box">
-                    <div class="tweak-title">Custom Tweakunit</div>
-                    <label class="small-label" for="units-custom-input">Enter your code:</label>
-                    <textarea id="units-custom-input" class="code-editor"
-                        placeholder="Paste your Lua code here"></textarea>
-                    <br>
-                    <button onclick="compressAndShowUnit('units-custom')">Compress & Convert</button>
-                    <div class="output-group">
-                        <label class="small-label" for="units-custom-compressed">Compressed Output:</label>
-                        <textarea id="units-custom-compressed"></textarea>
-                        <button onclick="copyToClipboard('units-custom-compressed')" class="copy-btn">Copy</button>
-                        <button onclick="convertCompressedToBase64('units-custom-compressed', 'units-custom-base64')"
-                            class="convert-btn">Convert to Base64</button>
-                    </div>
-                    <div class="output-group">
-                        <label class="small-label" for="units-custom-base64">Base64 Output:</label>
-                        <textarea id="units-custom-base64"></textarea>
-                        <button onclick="copyToClipboard('units-custom-base64')" class="copy-btn">Copy</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <script src="index.js"></script>
 </body>
 

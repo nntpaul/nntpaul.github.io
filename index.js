@@ -10,6 +10,7 @@ async function loadManifest() {
     }
 }
 
+
 async function initializePage() {
     manifest = await loadManifest();
 
