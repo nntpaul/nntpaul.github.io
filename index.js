@@ -10,6 +10,35 @@ async function loadManifest() {
     }
 }
 
+function showMode(mode) {
+    const coder = document.querySelector('.coder');
+    const decodeSection = document.getElementById('decode-section');
+    if (mode === 'encode') {
+        coder.style.display = '';
+        decodeSection.style.display = 'none';
+    } else {
+        coder.style.display = 'none';
+        decodeSection.style.display = '';
+    }
+}
+
+function decodeBase64url() {
+    const input = document.getElementById('decode-input').value;
+    try {
+        // Add padding if missing
+        let base64 = input.replace(/-/g, '+').replace(/_/g, '/');
+        while (base64.length % 4) base64 += '=';
+        const decoded = decodeURIComponent(escape(atob(base64)));
+        document.getElementById('decode-output').value = decoded;
+    } catch (e) {
+        document.getElementById('decode-output').value = 'Invalid Base64url!';
+    }
+}
+
+// Add event listeners for mode toggle
+document.querySelectorAll('input[name="mode"]').forEach(radio => {
+    radio.addEventListener('change', (e) => showMode(e.target.value));
+});
 
 async function initializePage() {
     manifest = await loadManifest();

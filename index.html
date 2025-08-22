@@ -12,8 +12,31 @@
 
         <div class="title">
             <h1>Lua Base64 Encoder</h1>
+            <div class="mode-toggle">
+                <label>
+                    <input type="radio" name="mode" value="encode" checked> Encode
+                </label>
+                <label>
+                    <input type="radio" name="mode" value="decode"> Decode
+                </label>
+            </div>
         </div>
-
+        <div id="decode-section" style="display:none;">
+            <div class="section">
+                <h2>Decode Base64url</h2>
+                <div class="tweak-box">
+                    <label class="small-label" for="decode-input">Paste Base64url:</label>
+                    <textarea id="decode-input" class="code-editor" placeholder="Paste your Base64url here"></textarea>
+                    <br>
+                    <button onclick="decodeBase64url()" class="convert-btn">Decode</button>
+                    <div class="output-group">
+                        <label class="small-label" for="decode-output">Decoded Lua Code:</label>
+                        <textarea id="decode-output"></textarea>
+                        <button onclick="copyToClipboard('decode-output')" class="copy-btn">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="coder">
             <div class="section">
                 <h2>Tweakdefs</h2>
