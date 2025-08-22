@@ -20,6 +20,17 @@ h2 {
   margin-bottom: 1.5em;
 }
 
+.instructions-content {
+  display: inline-block;
+  vertical-align: top;
+  width: 48%;
+  margin-right: 2%;
+}
+
+.instructions-content:last-child {
+  margin-right: 0;
+}
+
 .toggle-label {
   display: flex;
   align-items: center;
