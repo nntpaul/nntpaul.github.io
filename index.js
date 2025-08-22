@@ -1,4 +1,26 @@
+
 let manifest = null;
+let isEncodeMode = true;
+
+function toggleMode() {
+    isEncodeMode = !isEncodeMode;
+    const toggleText = document.querySelector('.toggle-text');
+    const encodeSection = document.getElementById('encode-section');
+    const decodeSection = document.getElementById('decode-section');
+    const title = document.querySelector('.title h1');
+
+    if (isEncodeMode) {
+        toggleText.textContent = 'Encode Mode';
+        encodeSection.style.display = 'flex';
+        decodeSection.style.display = 'none';
+        title.textContent = 'Lua Base64 Encoder';
+    } else {
+        toggleText.textContent = 'Decode Mode';
+        encodeSection.style.display = 'none';
+        decodeSection.style.display = 'flex';
+        title.textContent = 'Lua Base64 Decoder';
+    }
+}
 
 async function loadManifest() {
     try {
@@ -10,35 +32,6 @@ async function loadManifest() {
     }
 }
 
-function showMode(mode) {
-    const coder = document.querySelector('.coder');
-    const decodeSection = document.getElementById('decode-section');
-    if (mode === 'encode') {
-        coder.style.display = '';
-        decodeSection.style.display = 'none';
-    } else {
-        coder.style.display = 'none';
-        decodeSection.style.display = '';
-    }
-}
-
-function decodeBase64url() {
-    const input = document.getElementById('decode-input').value;
-    try {
-        // Add padding if missing
-        let base64 = input.replace(/-/g, '+').replace(/_/g, '/');
-        while (base64.length % 4) base64 += '=';
-        const decoded = decodeURIComponent(escape(atob(base64)));
-        document.getElementById('decode-output').value = decoded;
-    } catch (e) {
-        document.getElementById('decode-output').value = 'Invalid Base64url!';
-    }
-}
-
-// Add event listeners for mode toggle
-document.querySelectorAll('input[name="mode"]').forEach(radio => {
-    radio.addEventListener('change', (e) => showMode(e.target.value));
-});
 
 async function initializePage() {
     manifest = await loadManifest();
@@ -116,6 +109,22 @@ function convertCompressedToBase64(compressedId, base64Id) {
     const compressed = document.getElementById(compressedId).value;
     const base64 = btoa(unescape(encodeURIComponent(compressed))).replace(/=+$/, '');
     document.getElementById(base64Id).value = base64;
+}
+
+function decodeBase64() {
+    const base64Input = document.getElementById('decode-input').value;
+    try {
+        let paddedBase64 = base64Input;
+        while (paddedBase64.length % 4 !== 0) {
+            paddedBase64 += '=';
+        }
+
+        const decoded = decodeURIComponent(escape(atob(paddedBase64)));
+        document.getElementById('decode-output').value = decoded;
+        document.getElementById('beautified-output').value = '';
+    } catch (error) {
+        document.getElementById('decode-output').value = `Error decoding Base64: ${error.message}`;
+    }
 }
 
 async function loadTweakDef(url) {
@@ -257,6 +266,155 @@ function copyToClipboard(id) {
     setTimeout(() => {
         btn.textContent = originalText;
     }, 1500);
+}
+
+function beautifyLua(sourceId, targetId) {
+    const code = document.getElementById(sourceId).value;
+    const beautifyType = document.getElementById('beautify-type').value;
+    let beautified = '';
+
+    if (beautifyType === 'tweakunit') {
+        beautified = beautifyTweakunit(code);
+    } else {
+        beautified = beautifyTweakdef(code);
+    }
+
+    document.getElementById(targetId).value = beautified;
+}
+
+function beautifyTweakdef(code) {
+    const lines = code.split('\n');
+    const comments = [];
+    let codeStart = 0;
+    while (codeStart < lines.length && lines[codeStart].trim().startsWith('--')) {
+        comments.push(lines[codeStart]);
+        codeStart++;
+    }
+    const codePart = lines.slice(codeStart).join('\n').trim();
+
+    let beautifiedCode = '';
+    let indentLevel = 0;
+    let inQuote = false;
+    let quoteChar = '';
+    let escapeNext = false;
+
+    for (let i = 0; i < codePart.length; i++) {
+        const char = codePart[i];
+
+        if (escapeNext) {
+            beautifiedCode += char;
+            escapeNext = false;
+            continue;
+        }
+
+        if (inQuote) {
+            beautifiedCode += char;
+            if (char === '\\') {
+                escapeNext = true;
+            } else if (char === quoteChar) {
+                inQuote = false;
+            }
+            continue;
+        }
+
+        if (char === '"' || char === "'") {
+            inQuote = true;
+            quoteChar = char;
+            beautifiedCode += char;
+            continue;
+        }
+
+        if (char === '{' || char === '(') {
+            beautifiedCode += char + '\n' + '  '.repeat(++indentLevel);
+        } else if (char === '}' || char === ')') {
+            beautifiedCode = beautifiedCode.trimEnd();
+            beautifiedCode += '\n' + '  '.repeat(--indentLevel) + char;
+        } else if (char === ',') {
+            beautifiedCode += char + '\n' + '  '.repeat(indentLevel);
+        } else if (char === ';') {
+            beautifiedCode += char + '\n' + '  '.repeat(indentLevel);
+        } else {
+            beautifiedCode += char;
+        }
+    }
+
+    beautifiedCode = beautifiedCode
+        .replace(/\n\s*\n/g, '\n')
+        .replace(/\{\s*\n\s*\}/g, '{}')
+        .replace(/\(\s*\n\s*\)/g, '()');
+
+    return comments.join('\n') + (comments.length ? '\n' : '') + beautifiedCode;
+}
+
+function beautifyTweakunit(code) {
+    const lines = code.split('\n');
+    const comments = [];
+    let codeStart = 0;
+    while (codeStart < lines.length && lines[codeStart].trim().startsWith('--')) {
+        comments.push(lines[codeStart]);
+        codeStart++;
+    }
+    const codePart = lines.slice(codeStart).join('\n').trim();
+
+    let beautifiedCode = '';
+    let indentLevel = 0;
+    let inQuote = false;
+    let quoteChar = '';
+    let escapeNext = false;
+    let hasReturn = false;
+
+    for (let i = 0; i < codePart.length; i++) {
+        const char = codePart[i];
+
+        if (escapeNext) {
+            beautifiedCode += char;
+            escapeNext = false;
+            continue;
+        }
+
+        if (inQuote) {
+            beautifiedCode += char;
+            if (char === '\\') {
+                escapeNext = true;
+            } else if (char === quoteChar) {
+                inQuote = false;
+            }
+            continue;
+        }
+
+        if (char === '"' || char === "'") {
+            inQuote = true;
+            quoteChar = char;
+            beautifiedCode += char;
+            continue;
+        }
+
+        if (char === '{' && !hasReturn) {
+            beautifiedCode += 'return {\n' + '  '.repeat(++indentLevel);
+            hasReturn = true;
+            continue;
+        }
+
+        if (char === '{') {
+            beautifiedCode += char + '\n' + '  '.repeat(++indentLevel);
+        } else if (char === '}') {
+            beautifiedCode = beautifiedCode.trimEnd();
+            beautifiedCode += '\n' + '  '.repeat(--indentLevel) + char;
+        } else if (char === ',') {
+            beautifiedCode += char + '\n' + '  '.repeat(indentLevel);
+        } else if (char === ';') {
+            beautifiedCode += char + '\n' + '  '.repeat(indentLevel);
+        } else {
+            beautifiedCode += char;
+        }
+    }
+
+    beautifiedCode = beautifiedCode
+        .replace(/\n\s*\n/g, '\n')
+        .replace(/\{\s*\n\s*\}/g, '{}')
+        .replace(/return\s+\{/, 'return {');
+
+    return comments.join('\n') + (comments.length ? '\n' : '') + beautifiedCode;
 }
 
 initializePage();

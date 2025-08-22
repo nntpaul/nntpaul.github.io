@@ -9,35 +9,19 @@
 
 <body>
     <div class="container">
+        <div class="mode-toggle">
+            <label class="toggle-label">
+                <input type="checkbox" id="mode-toggle" onchange="toggleMode()">
+                <span class="toggle-slider"></span>
+                <span class="toggle-text">Encode Mode</span>
+            </label>
+        </div>
 
         <div class="title">
             <h1>Lua Base64 Encoder</h1>
-            <div class="mode-toggle">
-                <label>
-                    <input type="radio" name="mode" value="encode" checked> Encode
-                </label>
-                <label>
-                    <input type="radio" name="mode" value="decode"> Decode
-                </label>
-            </div>
         </div>
-        <div id="decode-section" style="display:none;">
-            <div class="section">
-                <h2>Decode Base64url</h2>
-                <div class="tweak-box">
-                    <label class="small-label" for="decode-input">Paste Base64url:</label>
-                    <textarea id="decode-input" class="code-editor" placeholder="Paste your Base64url here"></textarea>
-                    <br>
-                    <button onclick="decodeBase64url()" class="convert-btn">Decode</button>
-                    <div class="output-group">
-                        <label class="small-label" for="decode-output">Decoded Lua Code:</label>
-                        <textarea id="decode-output"></textarea>
-                        <button onclick="copyToClipboard('decode-output')" class="copy-btn">Copy</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="coder">
+
+        <div class="coder" id="encode-section">
             <div class="section">
                 <h2>Tweakdefs</h2>
                 <select id="defs-dropdown"></select>
@@ -92,15 +76,49 @@
                 </div>
             </div>
         </div>
+
+        <div class="coder" id="decode-section" style="display: none;">
+            <div class="section">
+                <h2>Decode Base64</h2>
+                <div class="tweak-box">
+                    <div class="tweak-title">Base64 Decoder</div>
+                    <label class="small-label" for="decode-input">Enter Base64 string:</label>
+                    <textarea id="decode-input" class="code-editor" placeholder="Paste Base64 string here"></textarea>
+                    <br>
+                    <button onclick="decodeBase64()">Decode</button>
+                    <div class="output-group">
+                        <label class="small-label" for="decode-output">Decoded Output:</label>
+                        <textarea id="decode-output"></textarea>
+                        <button onclick="copyToClipboard('decode-output')" class="copy-btn">Copy</button>
+                        <div class="beautify-controls">
+                            <select id="beautify-type">
+                                <option value="tweakdef">Tweakdef Format</option>
+                                <option value="tweakunit">Tweakunit Format</option>
+                            </select>
+                            <button onclick="beautifyLua('decode-output', 'beautified-output')"
+                                class="convert-btn">Beautify</button>
+                        </div>
+                    </div>
+                    <div class="output-group">
+                        <label class="small-label" for="beautified-output">Beautified Output:</label>
+                        <textarea id="beautified-output"></textarea>
+                        <button onclick="copyToClipboard('beautified-output')" class="copy-btn">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="bottom">
         <div class="instructions">
             <h3>How to use:</h3>
-            <p>1. Select a file from the dropdown or use "--Custom Tweaks--" to input your own code.</p>
-            <p>2. Click "Compress & Convert" to process the code.</p>
-            <p>3. Copy the compressed or Base64 output using the copy buttons.</p>
-            <p>4. The options from dropdown are pull directly from Backbash repo so it is always updated.</p>
+            <p>1. Toggle between Encode/Decode mode using the switch at the top.</p>
+            <p>2. In Encode mode: Select a file from the dropdown or use "--Custom Tweaks--" to input your own code.</p>
+            <p>3. Click "Compress & Convert" to process the code.</p>
+            <p>4. Copy the compressed or Base64 output using the copy buttons.</p>
+            <p>5. In Decode mode: Paste a Base64 string and click "Decode" to convert it back to Lua code.</p>
+            <p>6. Select the format (Tweakdef or Tweakunit) and click "Beautify" to format the decoded Lua code.</p>
+            <p>7. The options from dropdown are pull directly from Backbash repo so it is always updated.</p>
         </div>
     </div>
 

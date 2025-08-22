@@ -5,16 +5,6 @@ body {
   color: #f0f0f0;
 }
 
-.mode-toggle {
-  margin: 1em 0;
-  text-align: center;
-}
-.mode-toggle label {
-  margin: 0 1em;
-  font-size: 1.1em;
-  color: #4c7aaf;
-}
-
 h2 {
   margin-top: 0;
   color: #fff;
@@ -23,6 +13,60 @@ h2 {
 .title {
   text-align: center;
 }
+
+.mode-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5em;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #fff;
+  font-weight: bold;
+}
+
+.toggle-text {
+  margin-left: 10px;
+}
+
+.toggle-slider {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  background-color: #4c7aaf;
+  border-radius: 30px;
+  margin-right: 10px;
+  transition: background-color 0.3s;
+}
+
+.toggle-slider:before {
+  content: "";
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: white;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s;
+}
+
+#mode-toggle {
+  display: none;
+}
+
+#mode-toggle:checked + .toggle-slider {
+  background-color: #4caf50;
+}
+
+#mode-toggle:checked + .toggle-slider:before {
+  transform: translateX(30px);
+}
+
 .container {
   width: 90%;
   display: flex;
@@ -163,4 +207,26 @@ select {
 
 .copy-btn:hover {
   background: #5d8ec9;
+}
+
+.convert-btn {
+  background: #4caf50;
+  margin-left: 0.5em;
+}
+
+.convert-btn:hover {
+  background: #5dbf60;
+}
+
+.beautify-controls {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5em;
+  gap: 0.5em;
+}
+
+.beautify-controls select {
+  width: auto;
+  margin-bottom: 0;
+  margin-right: 0.5em;
 }
