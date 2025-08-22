@@ -36,6 +36,8 @@
                         <label class="small-label" for="defs-custom-compressed">Compressed Output:</label>
                         <textarea id="defs-custom-compressed"></textarea>
                         <button onclick="copyToClipboard('defs-custom-compressed')" class="copy-btn">Copy</button>
+                        <button onclick="convertCompressedToBase64('defs-custom-compressed', 'defs-custom-base64')"
+                            class="convert-btn">Convert to Base64</button>
                     </div>
                     <div class="output-group">
                         <label class="small-label" for="defs-custom-base64">Base64 Output:</label>
@@ -60,6 +62,8 @@
                         <label class="small-label" for="units-custom-compressed">Compressed Output:</label>
                         <textarea id="units-custom-compressed"></textarea>
                         <button onclick="copyToClipboard('units-custom-compressed')" class="copy-btn">Copy</button>
+                        <button onclick="convertCompressedToBase64('units-custom-compressed', 'units-custom-base64')"
+                            class="convert-btn">Convert to Base64</button>
                     </div>
                     <div class="output-group">
                         <label class="small-label" for="units-custom-base64">Base64 Output:</label>

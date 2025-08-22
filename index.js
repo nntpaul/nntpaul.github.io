@@ -67,11 +67,12 @@ function showCustomInput(type) {
                     <textarea id="${boxId}-input" class="code-editor" placeholder="Paste your Lua code here"></textarea>
                     <br>
                     <button onclick="compressAndShow${type === 'defs' ? 'Def' : 'Unit'}('${boxId}')">Compress & Convert</button>
-                    <div class="output-group">
-                        <label class="small-label" for="${boxId}-compressed">Compressed Output:</label>
-                        <textarea id="${boxId}-compressed"></textarea>
-                        <button onclick="copyToClipboard('${boxId}-compressed')" class="copy-btn">Copy</button>
-                    </div>
+                <div class="output-group">
+                    <label class="small-label" for="${boxId}-compressed">Compressed Output:</label>
+                    <textarea id="${boxId}-compressed"></textarea>
+                    <button onclick="copyToClipboard('${boxId}-compressed')" class="copy-btn">Copy</button>
+                    <button onclick="convertCompressedToBase64('${boxId}-compressed', '${boxId}-base64')" class="convert-btn">Convert to Base64</button>
+                </div>
                     <div class="output-group">
                         <label class="small-label" for="${boxId}-base64">Base64 Output:</label>
                         <textarea id="${boxId}-base64"></textarea>
@@ -79,6 +80,12 @@ function showCustomInput(type) {
                     </div>
                 </div>
             `;
+}
+
+function convertCompressedToBase64(compressedId, base64Id) {
+    const compressed = document.getElementById(compressedId).value;
+    const base64 = btoa(unescape(encodeURIComponent(compressed))).replace(/=+$/, '');
+    document.getElementById(base64Id).value = base64;
 }
 
 async function loadTweakDef(url) {
@@ -102,6 +109,7 @@ async function loadTweakDef(url) {
                 <label class="small-label" for="${boxId}-compressed">Compressed Output:</label>
                 <textarea id="${boxId}-compressed"></textarea>
                 <button onclick="copyToClipboard('${boxId}-compressed')" class="copy-btn">Copy</button>
+                <button onclick="convertCompressedToBase64('${boxId}-compressed', '${boxId}-base64')" class="convert-btn">Convert to Base64</button>
             </div>
             <div class="output-group">
                 <label class="small-label" for="${boxId}-base64">Base64 Output:</label>
@@ -133,6 +141,7 @@ async function loadTweakUnit(url) {
                 <label class="small-label" for="${boxId}-compressed">Compressed Output:</label>
                 <textarea id="${boxId}-compressed"></textarea>
                 <button onclick="copyToClipboard('${boxId}-compressed')" class="copy-btn">Copy</button>
+                <button onclick="convertCompressedToBase64('${boxId}-compressed', '${boxId}-base64')" class="convert-btn">Convert to Base64</button>
             </div>
             <div class="output-group">
                 <label class="small-label" for="${boxId}-base64">Base64 Output:</label>
