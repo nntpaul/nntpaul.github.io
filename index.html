@@ -32,9 +32,9 @@
                         <textarea id="defs-custom-input" class="code-editor"
                             placeholder="Paste your Lua code here"></textarea>
                         <br>
-                        <button onclick="compressAndShowDef('defs-custom')">Compress & Convert</button>
+                        <button onclick="compressAndShowDef('defs-custom')">Minify & Convert</button>
                         <div class="output-group">
-                            <label class="small-label" for="defs-custom-compressed">Compressed Output:</label>
+                            <label class="small-label" for="defs-custom-compressed">Minified Output:</label>
                             <textarea id="defs-custom-compressed"></textarea>
                             <button onclick="copyToClipboard('defs-custom-compressed')" class="copy-btn">Copy</button>
                             <button onclick="convertCompressedToBase64('defs-custom-compressed', 'defs-custom-base64')"
@@ -58,9 +58,9 @@
                         <textarea id="units-custom-input" class="code-editor"
                             placeholder="Paste your Lua code here"></textarea>
                         <br>
-                        <button onclick="compressAndShowUnit('units-custom')">Compress & Convert</button>
+                        <button onclick="compressAndShowUnit('units-custom')">Minify & Convert</button>
                         <div class="output-group">
-                            <label class="small-label" for="units-custom-compressed">Compressed Output:</label>
+                            <label class="small-label" for="units-custom-compressed">Minified Output:</label>
                             <textarea id="units-custom-compressed"></textarea>
                             <button onclick="copyToClipboard('units-custom-compressed')" class="copy-btn">Copy</button>
                             <button
@@ -116,7 +116,7 @@
             <div class="instructions-content">
                 <p>2. In Encode mode: Select a file from the dropdown or use "--Custom Tweaks--" to input your own code.
                 </p>
-                <p>3. Click "Compress & Convert" to process the code.</p>
+                <p>3. Click "Minify & Convert" to process the code.</p>
                 <p>4. Copy the compressed or Base64 output using the copy buttons.</p>
             </div>
             <div class="instructions-content">
