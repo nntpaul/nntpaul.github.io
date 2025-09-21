@@ -89,9 +89,9 @@ function showCustomInput(type) {
                     <label class="small-label" for="${boxId}-input">Enter your code:</label>
                     <textarea id="${boxId}-input" class="code-editor" placeholder="Paste your Lua code here"></textarea>
                     <br>
-                    <button onclick="compressAndShow${type === 'defs' ? 'Def' : 'Unit'}('${boxId}')">Compress & Convert</button>
+                    <button onclick="compressAndShow${type === 'defs' ? 'Def' : 'Unit'}('${boxId}')">Minify & Convert</button>
                 <div class="output-group">
-                    <label class="small-label" for="${boxId}-compressed">Compressed Output:</label>
+                    <label class="small-label" for="${boxId}-compressed">Minified Output:</label>
                     <textarea id="${boxId}-compressed"></textarea>
                     <button onclick="copyToClipboard('${boxId}-compressed')" class="copy-btn">Copy</button>
                     <button onclick="convertCompressedToBase64('${boxId}-compressed', '${boxId}-base64')" class="convert-btn">Convert to Base64</button>
@@ -143,9 +143,9 @@ async function loadTweakDef(url) {
             <label class="small-label" for="${boxId}-input">Raw Content:</label>
             <textarea id="${boxId}-input" class="code-editor">${text}</textarea>
             <br>
-            <button onclick="compressAndShowDef('${boxId}')">Compress & Convert</button>
+            <button onclick="compressAndShowDef('${boxId}')">Minify & Convert</button>
             <div class="output-group">
-                <label class="small-label" for="${boxId}-compressed">Compressed Output:</label>
+                <label class="small-label" for="${boxId}-compressed">Minified Output:</label>
                 <textarea id="${boxId}-compressed"></textarea>
                 <button onclick="copyToClipboard('${boxId}-compressed')" class="copy-btn">Copy</button>
                 <button onclick="convertCompressedToBase64('${boxId}-compressed', '${boxId}-base64')" class="convert-btn">Convert to Base64</button>
@@ -175,9 +175,9 @@ async function loadTweakUnit(url) {
             <label class="small-label" for="${boxId}-input">Raw Content:</label>
             <textarea id="${boxId}-input">${text}</textarea>
             <br>
-            <button onclick="compressAndShowUnit('${boxId}')">Compress & Convert</button>
+            <button onclick="compressAndShowUnit('${boxId}')">Minify & Convert</button>
             <div class="output-group">
-                <label class="small-label" for="${boxId}-compressed">Compressed Output:</label>
+                <label class="small-label" for="${boxId}-compressed">Minified Output:</label>
                 <textarea id="${boxId}-compressed"></textarea>
                 <button onclick="copyToClipboard('${boxId}-compressed')" class="copy-btn">Copy</button>
                 <button onclick="convertCompressedToBase64('${boxId}-compressed', '${boxId}-base64')" class="convert-btn">Convert to Base64</button>
