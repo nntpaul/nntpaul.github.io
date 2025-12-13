@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Yardmap Generator</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="nav-links">
+      <a href="../index.html" class="nav-link">← Back to Base64 Encoder</a>
+    </div>
+
+    <div class="title">
+      <h1>Yardmap Generator</h1>
+    </div>
+
+    <div class="coder">
+      <div class="section">
+        <h2>Configuration</h2>
+        <div class="tweak-box">
+          <div class="tweak-title">Generator Settings</div>
+
+          <label class="small-label">Footprint Size:</label>
+          <div class="input-group">
+            <input id="rowsInput" type="number" min="2" max="24" value="6" placeholder="Rows" />
+            <span class="multiplier">×</span>
+            <input id="colsInput" type="number" min="2" max="24" value="6" placeholder="Cols" />
+          </div>
+
+          <label class="small-label">Number of Versions:</label>
+          <input id="numVersions" type="number" min="1" max="12" value="9" />
+
+          <label class="toggle-label">
+            <input id="symmetryToggle" type="checkbox" checked />
+            <span class="toggle-text">Symmetrical Generation</span>
+          </label>
+
+          <button id="genBtn">Generate Yardmaps</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="output" id="output"></div>
+
+    <div class="copy-all-section" id="copyAllSection" style="display: none;">
+      <div class="copy-all-title">All Yardmaps Combined</div>
+      <div class="combined-output" id="combinedOutput"></div>
+      <button class="copy-all-btn" id="copyAllBtn">Copy All Yardmaps</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
